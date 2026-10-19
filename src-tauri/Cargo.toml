@@ -1,0 +1,34 @@
+[package]
+name = "e-virtuoso"
+version = "0.1.0"
+description = "游戏口琴自动化演奏与曲谱管理工具"
+authors = ["E-Virtuoso"]
+edition = "2021"
+
+[lib]
+name = "e_virtuoso_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0", features = ["macos-private-api"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+midly = "0.5"
+rand = "0.8"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58", features = [
+    "Win32_Foundation",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_UI_WindowsAndMessaging",
+] }
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "z"
+strip = true
